@@ -6,6 +6,6 @@ import com.banking.bankingapp.model.CustomerLogin;
 public interface CustomerService {
 	
 	String customerLogin(CustomerLogin loginData);
-	Customer registerCustomer(Customer customer);
+	String registerCustomer(Customer customer);
 
 }

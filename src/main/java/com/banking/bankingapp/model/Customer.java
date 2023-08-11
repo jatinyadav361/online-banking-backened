@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 
 
-
 @Entity
 @Table(name="CustomerInfo")
 public class Customer {
@@ -78,3 +77,17 @@ public class Customer {
 		this.accountNo = accountNo;
 	}
 }
+
+
+
+//{
+//    "accountNo": "98345619823",
+//    "username": "user2",
+//    "name": "Test",
+//    "email": "test@gmail.com",
+//    "password": "test@123",
+//    "mobileNo": "9273262662",
+//    "aadhar": "25o6488383",
+//    "address": "Test, Bengaluru",
+//    "pan": "BHID8936826"
+//}

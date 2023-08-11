@@ -25,7 +25,7 @@ public class CustomerController {
 	
 	@PostMapping("register")
 
-	public Customer createCustomer(@Valid @RequestBody Customer customer) {
+	public String createCustomer(@Valid @RequestBody Customer customer) {
 		return customerService.registerCustomer(customer);
 	}
 	
