@@ -16,9 +16,37 @@ public class Customer {
 	private String name;
 	private String email;
 	private String password;
+	private String mobileNo;
+	private String aadhar;
+	private String address;
+	private String pan;
 	@Column(length=11,unique=true)
 	private String accountNo;
 	
+	public String getMobileNo() {
+		return mobileNo;
+	}
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+	public String getAadhar() {
+		return aadhar;
+	}
+	public void setAadhar(String aadhar) {
+		this.aadhar = aadhar;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPan() {
+		return pan;
+	}
+	public void setPan(String pan) {
+		this.pan = pan;
+	}
 	public String getUsername() {
 		return username;
 	}
