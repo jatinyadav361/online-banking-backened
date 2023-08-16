@@ -1,5 +1,6 @@
 package com.banking.bankingapp.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.banking.bankingapp.model.Customer;
 import com.banking.bankingapp.model.CustomerLogin;
+import com.banking.bankingapp.repository.AccountRepository;
 import com.banking.bankingapp.repository.CustomerRepository;
 
 @Service
@@ -14,6 +16,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	CustomerRepository customerRepository;
+	
+	@Autowired
+	AccountRepository accountRepository;
 	
 	@Override
 	public String customerLogin(CustomerLogin loginData) {
@@ -41,6 +46,11 @@ public class CustomerServiceImpl implements CustomerService {
 			customerRepository.save(customer);
 			return "User created";
 		}
+	}
+
+	@Override
+	public List<Long> fetchAllAccounts(String username) {
+		return accountRepository.fetchAllAccounts(username);
 	}
 	
 	

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.banking.bankingapp.model.Account;
@@ -25,8 +26,8 @@ public class AccountController {
 	private AccountService accountService;
 	
 	@PostMapping("accounts")
-	public Account createAccount(@Valid @RequestBody Account account) {
-		return accountService.createAccount(account);
+	public String createAccount(@Valid @RequestBody Account account, @RequestParam("username") String username) {
+		return accountService.createAccount(account, username);
 	}
 	
 	@GetMapping("accounts")
@@ -35,12 +36,12 @@ public class AccountController {
 	}
 	
 	@PutMapping("accounts/{accNo}")
-	public Account updateAccount(@RequestBody Account account, @PathVariable("accNo") String accNo) {
+	public Account updateAccount(@RequestBody Account account, @PathVariable("accNo") long accNo) {
 		return accountService.updateAccount(account, accNo);
 	}
 	
 	@DeleteMapping("accounts/{accNo}")
-	public String deleteAccount(@PathVariable("accNo") String accNo) {
+	public String deleteAccount(@PathVariable("accNo") long accNo) {
 		accountService.deleteAccount(accNo);
 		return "Account Deleted Successfully";
 	}

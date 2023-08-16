@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.banking.bankingapp.model.Account;
+import com.banking.bankingapp.model.Customer;
 import com.banking.bankingapp.repository.AccountRepository;
+import com.banking.bankingapp.repository.CustomerRepository;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -15,9 +17,20 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private AccountRepository accountRepository;
 	
+	@Autowired
+	private CustomerRepository customerRepository;
+	
 	@Override
-	public Account createAccount(Account account) {
-		return accountRepository.save(account);
+	public String createAccount(Account account, String username) {
+		Optional<Customer> cust = customerRepository.findById(username);
+		if(cust.isPresent()) {
+			account.setCustomer(cust.get());
+			accountRepository.save(account);
+			return "Account created successfully with account no " + account.getAccountNo();
+		}
+		else {
+			return "Username does not exist";
+		}
 	}
 
 	@Override
@@ -26,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account updateAccount(Account account, String accountNo) {
+	public Account updateAccount(Account account, long accountNo) {
 		// only allows updating the ifsc code
 		Optional<Account> prevAccount = accountRepository.findById(accountNo);
 		if(prevAccount.isPresent()) {
@@ -41,7 +54,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public void deleteAccount(String accountNo) {
+	public void deleteAccount(long accountNo) {
 		accountRepository.deleteById(accountNo);	
 	}
 	

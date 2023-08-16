@@ -1,8 +1,19 @@
 package com.banking.bankingapp.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
+
+import org.hibernate.validator.constraints.Length;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 
@@ -12,16 +23,71 @@ public class Customer {
 	@Id
 	@Column(length=20,unique=true)
 	private String username;
-	private String name;
-	private String email;
-	private String password;
-	private String mobileNo;
-	private String aadhar;
-	private String address;
-	private String pan;
-	@Column(length=11,unique=true)
-	private String accountNo;
 	
+	@NotBlank(message="Customer name cannnot be blank")
+	private String name;
+	
+	@Email
+	private String email;
+	
+	@Length(min=8,max=30,message="Password must be between 8-30 characters")
+	private String password;
+	
+	@Length(min=10,max=10,message="Mobile Number must be of 10 digits")
+	@Pattern(regexp="^[0-9]+$", message="Mobile number can only contain digits")
+	private String mobileNo;
+	
+	@Length(min=12,max=12,message="Aadhar Number must be of 12 digits")
+	@Pattern(regexp="^[0-9]+$", message="Aadhar number can only contain digits")
+	private String aadhar;
+	
+	@NotBlank(message="Address cannnot be blank")
+	private String address;
+	
+	@Length(min=6,max=6,message="Pin code must be of 6 digits")
+	@Pattern(regexp="^[0-9]+$", message="Pin code can only contain digits")
+	private String pincode;
+	
+	@NotBlank(message="State field cannot be blank")
+	private String state;
+	
+	@NotBlank(message="District field cannnot be blank")
+	private String district;
+	
+	@Length(min=10,max=10,message="Pin code must be of 10 characters")
+	private String pan;
+	
+	@OneToMany(mappedBy="customer", fetch=FetchType.EAGER, cascade = CascadeType.ALL )
+	private List<Account> account;
+	
+
+	
+	public List<Account> getAccount() {
+		return account;
+	}
+	public void setAccount(List<Account> account) {
+		this.account = account;
+	}
+	public String getPincode() {
+		return pincode;
+	}
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	
+		
 	public String getMobileNo() {
 		return mobileNo;
 	}
@@ -69,12 +135,6 @@ public class Customer {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getAccountNo() {
-		return accountNo;
-	}
-	public void setAccountNo(String accountNo) {
-		this.accountNo = accountNo;
 	}
 }
 

@@ -5,11 +5,11 @@ import java.util.List;
 import com.banking.bankingapp.model.Account;
 
 public interface AccountService {
-	Account createAccount(Account account);
+	String createAccount(Account account, String username);
 	
 	List<Account> fetchAllAccounts();
 	
-	Account updateAccount(Account account, String accountNo);
+	Account updateAccount(Account account, long accountNo);
 	
-	void deleteAccount(String accountNo);
+	void deleteAccount(long accountNo);
 }
