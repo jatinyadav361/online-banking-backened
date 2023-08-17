@@ -54,7 +54,7 @@ public class Customer {
 	@NotBlank(message="District field cannnot be blank")
 	private String district;
 	
-	@Length(min=10,max=10,message="Pin code must be of 10 characters")
+//	@Length(min=10,max=10,message="Pin code must be of 10 characters")
 	private String pan;
 	
 	@OneToMany(mappedBy="customer", fetch=FetchType.EAGER, cascade = CascadeType.ALL )

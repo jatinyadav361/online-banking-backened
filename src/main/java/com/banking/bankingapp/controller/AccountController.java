@@ -25,25 +25,26 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 	
+	// username is passed as parameter
 	@PostMapping("accounts")
 	public String createAccount(@Valid @RequestBody Account account, @RequestParam("username") String username) {
 		return accountService.createAccount(account, username);
 	}
 	
-	@GetMapping("accounts")
-	public List<Account> fetchAllAccounts() {
-		return accountService.fetchAllAccounts();
+	@GetMapping("accounts/{accNo}")
+	public Account fetchAccount(@PathVariable("accNo") long accNo) {
+		return accountService.fetchAccount(accNo);
 	}
+//	
+//	@PutMapping("accounts/{accNo}")
+//	public Account updateAccount(@RequestBody Account account, @PathVariable("accNo") long accNo) {
+//		return accountService.updateAccount(account, accNo);
+//	}
 	
-	@PutMapping("accounts/{accNo}")
-	public Account updateAccount(@RequestBody Account account, @PathVariable("accNo") long accNo) {
-		return accountService.updateAccount(account, accNo);
-	}
-	
-	@DeleteMapping("accounts/{accNo}")
-	public String deleteAccount(@PathVariable("accNo") long accNo) {
-		accountService.deleteAccount(accNo);
-		return "Account Deleted Successfully";
-	}
+//	@DeleteMapping("accounts/{accNo}")
+//	public String deleteAccount(@PathVariable("accNo") long accNo) {
+//		accountService.deleteAccount(accNo);
+//		return "Account Deleted Successfully";
+//	}
 	
 }

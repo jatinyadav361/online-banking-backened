@@ -1,50 +1,71 @@
 package com.banking.bankingapp.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
-
-import jakarta.persistence.Column;
 
 
 @Entity
 @Table(name="TransactionInfo")
 public class Transaction {
 	@Id
-	@Column(name="transactionId",length=11,unique=true)
-	private String tId;
-	private Date date;
-	private String tAmount;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="transaction_generator")
+	@SequenceGenerator(name="transaction_generator", sequenceName="transaction_seq",initialValue=1000000000, allocationSize=1)
+	private long transactionId;
+	private ZonedDateTime date;
+	private double tAmount;
 	private String tType; // debit or credit
-	private String fromAccNo;
-	private String toAccNo;
-	private String tMode; // transaction mode
-	private String instBalance;
 	
-	public String getFromAccNo() {
-		return fromAccNo;
+	@ManyToOne
+	@JoinColumn(name="senderAccount")
+	private Account senderAccount;
+	
+	public Account getSenderAccount() {
+		return senderAccount;
 	}
-	public void setFromAccNo(String fromAccNo) {
-		this.fromAccNo = fromAccNo;
+	public void setSenderAccount(Account senderAccount) {
+		this.senderAccount = senderAccount;
 	}
-	public String gettId() {
-		return tId;
+	public Account getRecieverAccount() {
+		return recieverAccount;
 	}
-	public void settId(String tId) {
-		this.tId = tId;
+	public void setRecieverAccount(Account recieverAccount) {
+		this.recieverAccount = recieverAccount;
 	}
-	public Date getDate() {
+	@ManyToOne
+	@JoinColumn(name="recieverAccount")
+	private Account recieverAccount;
+	
+	private String tMode; // transaction mode rtgs/neft
+	private double instBalance;
+	
+	public long getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(long transactionId) {
+		this.transactionId = transactionId;
+	}
+	
+	
+	public ZonedDateTime getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(ZonedDateTime date) {
 		this.date = date;
 	}
-	public String gettAmount() {
+	
+	public double gettAmount() {
 		return tAmount;
 	}
-	public void settAmount(String tAmount) {
+	public void settAmount(double tAmount) {
 		this.tAmount = tAmount;
 	}
 	public String gettType() {
@@ -53,22 +74,17 @@ public class Transaction {
 	public void settType(String tType) {
 		this.tType = tType;
 	}
-	public String getToAccNo() {
-		return toAccNo;
-	}
-	public void setToAccNo(String toAccNo) {
-		this.toAccNo = toAccNo;
-	}
+	
 	public String gettMode() {
 		return tMode;
 	}
 	public void settMode(String tMode) {
 		this.tMode = tMode;
 	}
-	public String getInstBalance() {
+	public double getInstBalance() {
 		return instBalance;
 	}
-	public void setInstBalance(String instBalance) {
+	public void setInstBalance(double instBalance) {
 		this.instBalance = instBalance;
 	}
 	

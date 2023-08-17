@@ -38,7 +38,7 @@ public class CustomerController {
 		return customerService.customerLogin(customer);
 	}
 	
-
+	// fetch all accounts of a user
 	@GetMapping("fetchAccounts/{username}")
 	public List<Long> fetchAllAccounts(@PathVariable("username") String username) {
 		return customerService.fetchAllAccounts(username);

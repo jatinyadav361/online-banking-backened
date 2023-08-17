@@ -17,11 +17,13 @@ public class Account {
 	@SequenceGenerator(name="account_generator", sequenceName="account_seq",initialValue=1000000000, allocationSize=1)
 	private long accountNo;
 	
-	private String balance;
+	private double balance;
 	
 	private String accountType;
 	
 	private String ifsc;
+	
+	
 	
 	@ManyToOne
 	@JoinColumn(name="username")
@@ -41,10 +43,10 @@ public class Account {
 	}
 	
 	
-	public String getBalance() {
+	public double getBalance() {
 		return balance;
 	}
-	public void setBalance(String balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	public String getIfsc() {

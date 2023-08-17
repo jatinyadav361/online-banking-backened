@@ -25,6 +25,7 @@ public class AccountServiceImpl implements AccountService {
 		Optional<Customer> cust = customerRepository.findById(username);
 		if(cust.isPresent()) {
 			account.setCustomer(cust.get());
+			account.setBalance(2000.00);
 			accountRepository.save(account);
 			return "Account created successfully with account no " + account.getAccountNo();
 		}
@@ -34,8 +35,9 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<Account> fetchAllAccounts() {
-		return (List<Account>) accountRepository.findAll();
+	public Account fetchAccount(long accId) {
+		Optional<Account> acc = accountRepository.findById(accId);
+		return acc.get();
 	}
 
 	@Override
