@@ -11,7 +11,7 @@ import com.banking.bankingapp.model.Transaction;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 	
-	@Query("select t.transactionId from Transaction t where t.senderAccount.accountNo=?1 or (t.recieverAccount != null and t.recieverAccount.accountNo=?1)")
+	@Query("select t.transactionId from Transaction t where t.senderAccount.accountNo=?1 or (t.recieverAccount != null and t.recieverAccount.accountNo=?1) order by t.date desc")
 	
 	public List<Long> fetchAccountSummary(long accountId);
 	
