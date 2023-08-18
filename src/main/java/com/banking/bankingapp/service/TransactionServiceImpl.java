@@ -2,6 +2,7 @@ package com.banking.bankingapp.service;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,37 @@ public class TransactionServiceImpl implements TransactionService {
 				return "No transaction happened";
 			}
 		}
+	}
+
+	@Override
+	@Transactional
+	public String selfCashWithdrawl(Transaction transaction, Long sender) {
+		transaction.setDate(ZonedDateTime.now());
+		Optional<Account> acc = accountRepo.findById(sender);
+		if(!acc.isPresent()) {
+			return "Sender account invalid";
+		}
+		Account account  = acc.get();
+		transaction.setSenderAccount(account);
+		double balance = account.getBalance();
+		if(balance-transaction.gettAmount() < 1000) {
+			return "Insufficient balance";
+		}
+		else {
+			int rowEffected = accountRepo.updateBalanceSender(transaction.gettAmount(), sender);
+			if(rowEffected > 0) {
+				transaction.setInstBalance(balance-transaction.gettAmount());
+				transactionRepository.save(transaction);
+				return "Withdrawl process successful";
+			}
+			else {
+				return "No transaction happened";
+			}
+		}
+	}
+
+	@Override
+	public List<Long> fetchAccountSummary(long accountNo) {
+		return transactionRepository.fetchAccountSummary(accountNo);
 	}
 }

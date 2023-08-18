@@ -44,7 +44,7 @@ public class Transaction {
 	@JoinColumn(name="recieverAccount")
 	private Account recieverAccount;
 	
-	private String tMode; // transaction mode rtgs/neft
+	private String tMode; // transaction mode RTGS, NEFT, IMPS, Cash Withdrawl, Self Transfer
 	private double instBalance;
 	
 	public long getTransactionId() {

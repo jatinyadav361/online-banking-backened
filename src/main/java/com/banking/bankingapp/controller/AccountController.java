@@ -25,7 +25,7 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 	
-	// username is passed as parameter
+	// username is passed as parameter /accounts?username=admin
 	@PostMapping("accounts")
 	public String createAccount(@Valid @RequestBody Account account, @RequestParam("username") String username) {
 		return accountService.createAccount(account, username);
