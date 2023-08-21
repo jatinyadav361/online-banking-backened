@@ -1,8 +1,7 @@
 package com.banking.bankingapp.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,15 +25,18 @@ public class AccountController {
 	private AccountService accountService;
 	
 	// username is passed as parameter /accounts?username=admin
+	// creating a new account
 	@PostMapping("accounts")
-	public String createAccount(@Valid @RequestBody Account account, @RequestParam("username") String username) {
+	public ResponseEntity<String> createAccount(@Valid @RequestBody Account account, @RequestParam("username") String username) {
 		return accountService.createAccount(account, username);
 	}
 	
+	// fetching a account using accountNo
 	@GetMapping("accounts/{accNo}")
 	public Account fetchAccount(@PathVariable("accNo") long accNo) {
 		return accountService.fetchAccount(accNo);
 	}
+	
 //	
 //	@PutMapping("accounts/{accNo}")
 //	public Account updateAccount(@RequestBody Account account, @PathVariable("accNo") long accNo) {

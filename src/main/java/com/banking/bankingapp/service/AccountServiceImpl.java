@@ -1,9 +1,9 @@
 package com.banking.bankingapp.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.banking.bankingapp.model.Account;
@@ -21,16 +21,16 @@ public class AccountServiceImpl implements AccountService {
 	private CustomerRepository customerRepository;
 	
 	@Override
-	public String createAccount(Account account, String username) {
+	public ResponseEntity<String> createAccount(Account account, String username) {
 		Optional<Customer> cust = customerRepository.findById(username);
 		if(cust.isPresent()) {
 			account.setCustomer(cust.get());
 			account.setBalance(2000.00);
 			accountRepository.save(account);
-			return "Account created successfully with account no " + account.getAccountNo();
+			return ResponseEntity.status(200).body("Account created successfully with account no " + account.getAccountNo());
 		}
 		else {
-			return "Username does not exist";
+			return ResponseEntity.status(404).body("Username does not exist");
 		}
 	}
 

@@ -1,15 +1,20 @@
 package com.banking.bankingapp.service;
 
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.banking.bankingapp.model.Transaction;
+import com.banking.bankingapp.model.TransactionFetch;
 
 public interface TransactionService {
 	
-	String withdrawlProcess(Transaction transaction, Long reciever , Long sender);
+	ResponseEntity<String> withdrawlProcess(Transaction transaction, Long reciever , Long sender);
 	
-	String selfCashWithdrawl(Transaction transaction, Long sender);
+	ResponseEntity<String> selfCashWithdrawl(Transaction transaction, Long sender);
 	
-	List<Long> fetchAccountSummary(long accountNo);
+	List<TransactionFetch> fetchAccountSummary(long accountNo);
 	
+	List<TransactionFetch> fetchAccountStatement(long accountNo, Date startDate, Date endDate);
 }

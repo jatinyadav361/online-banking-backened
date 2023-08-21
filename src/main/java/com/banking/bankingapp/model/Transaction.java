@@ -20,7 +20,8 @@ public class Transaction {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="transaction_generator")
 	@SequenceGenerator(name="transaction_generator", sequenceName="transaction_seq",initialValue=1000000000, allocationSize=1)
 	private long transactionId;
-	private ZonedDateTime date;
+	private ZonedDateTime timestamp;
+	private Date date;
 	private double tAmount;
 	private String tType; // debit or credit
 	
@@ -54,14 +55,18 @@ public class Transaction {
 		this.transactionId = transactionId;
 	}
 	
-	
-	public ZonedDateTime getDate() {
+	public ZonedDateTime getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(ZonedDateTime timestamp) {
+		this.timestamp = timestamp;
+	}
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(ZonedDateTime date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
-	
 	public double gettAmount() {
 		return tAmount;
 	}
