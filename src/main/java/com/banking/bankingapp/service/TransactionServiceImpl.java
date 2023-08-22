@@ -37,6 +37,8 @@ public class TransactionServiceImpl implements TransactionService {
 			return  ResponseEntity.status(404).body("Reciever account invalid");
 		}
 		transaction.setRecieverAccount(acc2.get());
+		double recieverBalance = acc2.get().getBalance();
+		
 		Optional<Account> acc = accountRepo.findById(sender);
 		if(!acc.isPresent()) {
 			return  ResponseEntity.status(404).body("Sender account invalid");
@@ -53,8 +55,9 @@ public class TransactionServiceImpl implements TransactionService {
 				int rowEffected2 = accountRepo.updateBalanceReciever(transaction.gettAmount(), reciever);
 				if(rowEffected2 > 0) {
 					transaction.setInstBalance(balance-transaction.gettAmount());
-					transactionRepository.save(transaction);
-					return  ResponseEntity.status(200).body("Withdrawl process successful");
+					transaction.setInstBalanceReciever(recieverBalance+transaction.gettAmount());
+					Transaction t = transactionRepository.save(transaction);
+					return  ResponseEntity.status(200).body(""+t.getTransactionId());
 				}
 				else {
 					return  ResponseEntity.status(404).body("No transaction happened");
@@ -86,8 +89,8 @@ public class TransactionServiceImpl implements TransactionService {
 			int rowEffected = accountRepo.updateBalanceSender(transaction.gettAmount(), sender);
 			if(rowEffected > 0) {
 				transaction.setInstBalance(balance-transaction.gettAmount());
-				transactionRepository.save(transaction);
-				return  ResponseEntity.status(200).body("Withdrawl process successful");
+				Transaction t = transactionRepository.save(transaction);
+				return  ResponseEntity.status(200).body(t.getTransactionId()+"");
 			}
 			else {
 				return  ResponseEntity.status(404).body("No transaction happened");
@@ -110,7 +113,10 @@ public class TransactionServiceImpl implements TransactionService {
 			tFetch.setTransactionId(tc.getTransactionId());
 			tFetch.setDate(tc.getDate());
 			tFetch.setInstBalance(tc.getInstBalance());
-			tFetch.setRecieverAccountId(tc.getRecieverAccount().getAccountNo());
+			if(tc.getRecieverAccount() != null) {
+				tFetch.setRecieverAccountId(tc.getRecieverAccount().getAccountNo());
+			}
+			
 			tFetch.setSenderAccountId(tc.getSenderAccount().getAccountNo());
 			tFetch.settAmount(tc.gettAmount());
 			tFetch.settMode(tc.gettMode());
@@ -137,7 +143,11 @@ public class TransactionServiceImpl implements TransactionService {
 			tFetch.setTransactionId(tc.getTransactionId());
 			tFetch.setDate(tc.getDate());
 			tFetch.setInstBalance(tc.getInstBalance());
-			tFetch.setRecieverAccountId(tc.getRecieverAccount().getAccountNo());
+			tFetch.setInstBalanceReciever(tc.getInstBalanceReciever());
+			if(tc.getRecieverAccount() != null) {
+				tFetch.setRecieverAccountId(tc.getRecieverAccount().getAccountNo());
+			}
+			
 			tFetch.setSenderAccountId(tc.getSenderAccount().getAccountNo());
 			tFetch.settAmount(tc.gettAmount());
 			tFetch.settMode(tc.gettMode());

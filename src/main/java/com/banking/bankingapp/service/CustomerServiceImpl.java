@@ -1,17 +1,17 @@
 package com.banking.bankingapp.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.banking.bankingapp.model.Account;
 import com.banking.bankingapp.model.AccountFetch;
 import com.banking.bankingapp.model.Customer;
+import com.banking.bankingapp.model.CustomerDTO;
 import com.banking.bankingapp.model.CustomerLogin;
 import com.banking.bankingapp.repository.AccountRepository;
 import com.banking.bankingapp.repository.CustomerRepository;
@@ -24,6 +24,9 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	AccountRepository accountRepository;
+	
+	@Autowired
+    private ModelMapper modelMapper;
 	
 	@Override
 	public ResponseEntity<String> customerLogin(CustomerLogin loginData) {
@@ -49,6 +52,8 @@ public class CustomerServiceImpl implements CustomerService {
 			return ResponseEntity.status(404).body("User already exists! Choose a different username");
 		}
 		else {
+			customer.setLocked(false);
+			customer.setActive(false);
 			customerRepository.save(customer);
 			return ResponseEntity.status(200).body("User created");
 		}
@@ -71,6 +76,19 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		
 		return accounts;
+	}
+
+	private CustomerDTO convertToDto(Customer cust) {
+		CustomerDTO custDto = modelMapper.map(cust, CustomerDTO.class);
+	    return custDto;
+	}
+
+	@Override
+	public List<CustomerDTO> fetchAllUsers() {
+		List<Customer> cust = customerRepository.findAll();
+		return cust.stream()
+		          .map(this::convertToDto)
+		          .collect(Collectors.toList());
 	}
 	
 	

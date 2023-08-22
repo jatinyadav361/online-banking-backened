@@ -12,6 +12,13 @@ public class TransactionFetch {
 	private long recieverAccountId;
 	private String tMode; // transaction mode RTGS, NEFT, IMPS, Cash Withdrawl, Self Transfer
 	private double instBalance;
+	private double instBalanceReciever;
+	public double getInstBalanceReciever() {
+		return instBalanceReciever;
+	}
+	public void setInstBalanceReciever(double instBalanceReciever) {
+		this.instBalanceReciever = instBalanceReciever;
+	}
 	public long getTransactionId() {
 		return transactionId;
 	}

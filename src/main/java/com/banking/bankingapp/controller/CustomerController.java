@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.banking.bankingapp.model.AccountFetch;
 import com.banking.bankingapp.model.Customer;
+import com.banking.bankingapp.model.CustomerDTO;
 import com.banking.bankingapp.model.CustomerLogin;
 import com.banking.bankingapp.service.CustomerService;
 
@@ -43,6 +44,11 @@ public class CustomerController {
 	@GetMapping("fetchAccounts/{username}")
 	public List<AccountFetch> fetchAllAccounts(@PathVariable("username") String username) {
 		return customerService.fetchAllAccounts(username);
+	}
+	
+	@GetMapping("getAllUsers")
+	public List<CustomerDTO> getAllUsers() {
+		return customerService.fetchAllUsers();
 	}
 	
 
