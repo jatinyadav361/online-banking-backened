@@ -26,6 +26,7 @@ public class AccountServiceImpl implements AccountService {
 		if(cust.isPresent()) {
 			account.setCustomer(cust.get());
 			account.setBalance(2000.00);
+			account.setIfsc("SBIN0011870");
 			accountRepository.save(account);
 			return ResponseEntity.status(200).body("Account created successfully with account no " + account.getAccountNo());
 		}

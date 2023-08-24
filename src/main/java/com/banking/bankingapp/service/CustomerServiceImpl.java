@@ -83,6 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
 	    return custDto;
 	}
 
+	
 	@Override
 	public List<CustomerDTO> fetchAllUsers() {
 		List<Customer> cust = customerRepository.findAll();

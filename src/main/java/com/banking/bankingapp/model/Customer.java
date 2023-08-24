@@ -9,10 +9,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+import java.util.Date;
 import java.util.List;
-
 import org.hibernate.validator.constraints.Length;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
@@ -21,7 +20,8 @@ import jakarta.persistence.Column;
 @Table(name="CustomerInfo")
 public class Customer {
 	@Id
-	@Column(length=20,unique=true)
+	@Column(unique=true)
+	@Length(min=8, max=20)
 	private String username;
 	
 	private boolean active;
@@ -60,8 +60,17 @@ public class Customer {
 	@NotBlank(message="Address cannnot be blank")
 	private String addressLine2;
 	private String landmark;
+	private Date dob;
 	
 	private boolean samePermanentAddress;
+	
+	private String addressLine1P;
+	private String addressLine2P;
+	private String landmarkP;
+	private String pincodeP;
+	private String stateP;
+	private String districtP;
+	
 	
 	private String occupationType;
 	private String occupation;
@@ -87,8 +96,6 @@ public class Customer {
 	@OneToMany(mappedBy="customer", fetch=FetchType.EAGER, cascade = CascadeType.ALL )
 	private List<Account> account;
 	
-
-	
 	public List<Account> getAccount() {
 		return account;
 	}
@@ -113,7 +120,6 @@ public class Customer {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	
 		
 	public String getMobileNo() {
 		return mobileNo;
@@ -248,6 +254,48 @@ public class Customer {
 	}
 	public void setLocked(boolean locked) {
 		this.locked = locked;
+	}
+	public String getAddressLine1P() {
+		return addressLine1P;
+	}
+	public void setAddressLine1P(String addressLine1P) {
+		this.addressLine1P = addressLine1P;
+	}
+	public String getAddressLine2P() {
+		return addressLine2P;
+	}
+	public void setAddressLine2P(String addressLine2P) {
+		this.addressLine2P = addressLine2P;
+	}
+	public String getLandmarkP() {
+		return landmarkP;
+	}
+	public void setLandmarkP(String landmarkP) {
+		this.landmarkP = landmarkP;
+	}
+	public String getPincodeP() {
+		return pincodeP;
+	}
+	public void setPincodeP(String pincodeP) {
+		this.pincodeP = pincodeP;
+	}
+	public String getStateP() {
+		return stateP;
+	}
+	public void setStateP(String stateP) {
+		this.stateP = stateP;
+	}
+	public String getDistrictP() {
+		return districtP;
+	}
+	public void setDistrictP(String districtP) {
+		this.districtP = districtP;
+	}
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
 }
 

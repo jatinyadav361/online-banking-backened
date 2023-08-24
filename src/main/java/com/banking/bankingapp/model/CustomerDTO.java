@@ -1,5 +1,7 @@
 package com.banking.bankingapp.model;
 
+import java.util.Date;
+
 public class CustomerDTO {
 
 	private String username;
@@ -15,19 +17,33 @@ public class CustomerDTO {
 	private String addressLine1;
 	private String addressLine2;
 	private String landmark;
+	private String pincode;
+	private String state;
+	private String district;
 	private boolean samePermanentAddress;
+	private String addressLine1P;
+	private String addressLine2P;
+	private String landmarkP;
+	private String pincodeP;
+	private String stateP;
+	private String districtP;
 	private String occupationType;
 	private String occupation;
 	private String annualIncome;
 	private boolean netBankingOpted;
 	private boolean debitCardOpted;
-	private String pincode;
-	private String state;
-	private String district;
 	private String pan;
 	private boolean active;
 	private boolean locked;
+	private Date dob;
 	
+	
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
 	public boolean isActive() {
 		return active;
 	}
@@ -177,5 +193,41 @@ public class CustomerDTO {
 	}
 	public void setPan(String pan) {
 		this.pan = pan;
+	}
+	public String getAddressLine1P() {
+		return addressLine1P;
+	}
+	public void setAddressLine1P(String addressLine1P) {
+		this.addressLine1P = addressLine1P;
+	}
+	public String getAddressLine2P() {
+		return addressLine2P;
+	}
+	public void setAddressLine2P(String addressLine2P) {
+		this.addressLine2P = addressLine2P;
+	}
+	public String getLandmarkP() {
+		return landmarkP;
+	}
+	public void setLandmarkP(String landmarkP) {
+		this.landmarkP = landmarkP;
+	}
+	public String getPincodeP() {
+		return pincodeP;
+	}
+	public void setPincodeP(String pincodeP) {
+		this.pincodeP = pincodeP;
+	}
+	public String getStateP() {
+		return stateP;
+	}
+	public void setStateP(String stateP) {
+		this.stateP = stateP;
+	}
+	public String getDistrictP() {
+		return districtP;
+	}
+	public void setDistrictP(String districtP) {
+		this.districtP = districtP;
 	}
 }
