@@ -17,5 +17,15 @@ public interface CustomerService {
 	List<AccountFetch> fetchAllAccounts(String username);
 	
 	List<CustomerDTO> fetchAllUsers();
+	
+	CustomerDTO fetchUser(String username);
+	
+	boolean getUserActiveStatus(String username);
+	
+	ResponseEntity<String> activateUser(String username);
+	
+	ResponseEntity<String> lockUser(String username);
+	
+	boolean getUserLockStatus(String username);
 
 }

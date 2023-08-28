@@ -46,10 +46,18 @@ public class CustomerController {
 		return customerService.fetchAllAccounts(username);
 	}
 	
+	// fetch  a user 
+	// http://localhost:8080/customer/{username}
+	@GetMapping("customer/{username}")
+	public CustomerDTO fetchUser(@PathVariable("username") String username) {
+		return customerService.fetchUser(username);
+	}
+	
 	@GetMapping("getAllUsers")
 	public List<CustomerDTO> getAllUsers() {
 		return customerService.fetchAllUsers();
 	}
 	
+//	@PutMapping("")
 
 }

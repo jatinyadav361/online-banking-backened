@@ -91,6 +91,54 @@ public class CustomerServiceImpl implements CustomerService {
 		          .map(this::convertToDto)
 		          .collect(Collectors.toList());
 	}
+
+
+	@Override
+	public CustomerDTO fetchUser(String username) {
+		Optional<Customer> cust = customerRepository.findById(username);
+		if(cust.isPresent()) {
+			return convertToDto(cust.get());
+		}
+		else {
+			return null;
+		}
+	}
+
+
+	@Override
+	public boolean getUserActiveStatus(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public ResponseEntity<String> activateUser(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ResponseEntity<String> lockUser(String username) {
+		Optional<Customer> cust = customerRepository.findById(username);
+		if(cust.isPresent()) {
+//			boolean status = cust.get().isLocked();
+//			cust.get().setLocked(!status);
+//			customerRepository.save(cust.get());
+			return ResponseEntity.status(200) .body("User Status" + cust.get().isLocked());
+		}
+		else {
+			return ResponseEntity.status(404).body("User does not exist!");
+		}
+	}
+
+
+	@Override
+	public boolean getUserLockStatus(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 	

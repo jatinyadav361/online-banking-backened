@@ -23,4 +23,5 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	@Modifying
 	@Query("update Account account set account.balance=account.balance+?1 where account.accountNo=?2")
 	public int updateBalanceReciever(double amount, long accountNo);
+	
 }
