@@ -23,9 +23,11 @@ public class Customer {
 	@Column(unique=true)
 	@Length(min=8, max=20)
 	private String username;
-	
+	private int incorrectPassAttempt;
 	private boolean active;
 	private boolean locked;
+	
+	private boolean admin;
 	
 	@NotBlank(message="Customer title cannnot be blank")
 	private String title;
@@ -297,6 +299,19 @@ public class Customer {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
+	public boolean isAdmin() {
+		return admin;
+	}
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+	public int getIncorrectPassAttempt() {
+		return incorrectPassAttempt;
+	}
+	public void setIncorrectPassAttempt(int incorrectPassAttempt) {
+		this.incorrectPassAttempt = incorrectPassAttempt;
+	}
+	
 }
 
 

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,10 +35,16 @@ public class TransactionController {
 		return transactionService.fetchAccountSummary(accountNo);
 	}
 	
+	// http://localhost:8080/accountSummaryAll?accountNo=1000000000
+	@GetMapping("accountSummaryAll")
+	public List<TransactionFetch> fetchAllTransactions(@RequestParam("accountNo") Long accountNo) {
+		return transactionService.fetchAllTransactions(accountNo);
+	}
+	
 
 	// http://localhost:8080/accountStatement/{accountNo}?startDate={}&endDate={}
 	@GetMapping("accountStatement/{accountNo}")
-	public List<TransactionFetch> fetchAccountStatement(@PathVariable("accountNo") Long accountNo, @RequestParam("startDate") Date startDate, @RequestParam("endDate") Date endDate) {
+	public List<TransactionFetch> fetchAccountStatement(@PathVariable("accountNo") Long accountNo, @RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate, @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd")  Date endDate) {
 		return transactionService.fetchAccountStatement(accountNo, startDate, endDate);
 	}
 	
@@ -46,6 +53,11 @@ public class TransactionController {
 	@PostMapping("selfWithdrawl")
 	public ResponseEntity<String> selfWithdrawlCash(@Valid @RequestBody Transaction transaction, @RequestParam("sender") Long sender) {
 		return transactionService.selfCashWithdrawl(transaction, sender);
+	}
+	
+	@PostMapping("selfDeposit")
+	public ResponseEntity<String> selfDepositCash(@Valid @RequestBody Transaction transaction, @RequestParam("sender") Long sender) {
+		return transactionService.selfCashDeposit(transaction, sender);
 	}
 	
 	// we will  get sender and reciever account as params

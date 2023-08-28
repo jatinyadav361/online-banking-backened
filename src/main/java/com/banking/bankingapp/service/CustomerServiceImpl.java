@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.banking.bankingapp.model.Account;
 import com.banking.bankingapp.model.AccountFetch;
 import com.banking.bankingapp.model.Customer;
@@ -31,12 +33,57 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public ResponseEntity<String> customerLogin(CustomerLogin loginData) {
 		Optional<Customer> customerData = customerRepository.findById(loginData.getUsername());
+		Customer c = customerData.get();
 		if(customerData.isPresent()) {
-			if(customerData.get().getPassword().equals(loginData.getPassword())) {
-				return ResponseEntity.status(200) .body("Login Successful");
+			if(customerData.get().isActive() == true && customerData.get().isLocked() == false) {
+				if(loginData.isAdmin()) {
+					if(customerData.get().isAdmin() == true) {
+						if(customerData.get().getPassword().equals(loginData.getPassword())) {
+							c.setIncorrectPassAttempt(0);
+							customerRepository.save(c);
+							return ResponseEntity.status(200).body("true");
+						}
+						else {
+							if(customerData.get().getIncorrectPassAttempt() < 2) {
+								c.setIncorrectPassAttempt(c.getIncorrectPassAttempt()+1);
+								customerRepository.save(c);
+								return ResponseEntity.status(404).body("Incorrect Password, only ".concat(Integer.toString(3-c.getIncorrectPassAttempt())).concat(" out of 3 attempts remaining"));
+							}
+							else {
+								c.setIncorrectPassAttempt(0);
+								c.setLocked(true);
+								customerRepository.save(c);
+								return ResponseEntity.status(404).body("Incorrect Password, Your account has been locked due to 3 incorrect attempts");
+							}
+						}
+					}
+					else {
+						return ResponseEntity.status(404).body("You don't have admin access");
+					}
+				}
+				else {
+					if(customerData.get().getPassword().equals(loginData.getPassword())) {
+						c.setIncorrectPassAttempt(0);
+						customerRepository.save(c);
+						return ResponseEntity.status(200).body("false");
+					}
+					else {
+						if(customerData.get().getIncorrectPassAttempt() < 2) {
+							c.setIncorrectPassAttempt(c.getIncorrectPassAttempt()+1);
+							customerRepository.save(c);
+							return ResponseEntity.status(404).body("Incorrect Password, only ".concat(Integer.toString(3-c.getIncorrectPassAttempt())).concat(" out of 3 attempts remaining"));
+						}
+						else {
+							c.setIncorrectPassAttempt(0);
+							c.setLocked(true);
+							customerRepository.save(c);
+							return ResponseEntity.status(404).body("Incorrect Password, Your account has been locked due to 3 incorrect attempts");
+						}
+					}
+				}
 			}
 			else {
-				return ResponseEntity.status(404).body("Incorrect Password");
+				return ResponseEntity.status(404).body("Your account is locked or inactive. Please contact bank admin");
 			}
 		}
 		else {
@@ -54,6 +101,8 @@ public class CustomerServiceImpl implements CustomerService {
 		else {
 			customer.setLocked(false);
 			customer.setActive(false);
+			customer.setAdmin(false);
+			customer.setIncorrectPassAttempt(0);
 			customerRepository.save(customer);
 			return ResponseEntity.status(200).body("User created");
 		}
@@ -106,27 +155,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 	@Override
-	public boolean getUserActiveStatus(String username) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
-	public ResponseEntity<String> activateUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public ResponseEntity<String> lockUser(String username) {
+	@Transactional
+	public ResponseEntity<String> toggleActivatedStatus(String username) {
 		Optional<Customer> cust = customerRepository.findById(username);
 		if(cust.isPresent()) {
-//			boolean status = cust.get().isLocked();
-//			cust.get().setLocked(!status);
-//			customerRepository.save(cust.get());
-			return ResponseEntity.status(200) .body("User Status" + cust.get().isLocked());
+			customerRepository.toggleActiveStatus(username);
+			return ResponseEntity.status(200) .body("User active Status toggled");
 		}
 		else {
 			return ResponseEntity.status(404).body("User does not exist!");
@@ -135,11 +169,31 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 	@Override
-	public boolean getUserLockStatus(String username) {
-		// TODO Auto-generated method stub
-		return false;
+	@Transactional
+	public ResponseEntity<String> toggleLockedStatus(String username) {
+		Optional<Customer> cust = customerRepository.findById(username);
+		if(cust.isPresent()) {
+			customerRepository.toggleLockedStatus(username);
+			return ResponseEntity.status(200) .body("User locked Status toggled");
+		}
+		else {
+			return ResponseEntity.status(404).body("User does not exist!");
+		}
 	}
-	
+
+
+	@Override
+	@Transactional
+	public ResponseEntity<String> toggleAdminStatus(String username) {
+		Optional<Customer> cust = customerRepository.findById(username);
+		if(cust.isPresent()) {
+			customerRepository.toggleAdminStatus(username);
+			return ResponseEntity.status(200) .body("User admin Status toggled");
+		}
+		else {
+			return ResponseEntity.status(404).body("User does not exist!");
+		}
+	}
 	
 	
 }

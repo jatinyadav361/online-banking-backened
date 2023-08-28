@@ -33,20 +33,8 @@ public class AccountController {
 	
 	// fetching a account using accountNo
 	@GetMapping("accounts/{accNo}")
-	public Account fetchAccount(@PathVariable("accNo") long accNo) {
-		return accountService.fetchAccount(accNo);
+	public ResponseEntity<Double> fetchBalance(@PathVariable("accNo") long accNo) {
+		return accountService.fetchBalance(accNo);
 	}
-	
-//	
-//	@PutMapping("accounts/{accNo}")
-//	public Account updateAccount(@RequestBody Account account, @PathVariable("accNo") long accNo) {
-//		return accountService.updateAccount(account, accNo);
-//	}
-	
-//	@DeleteMapping("accounts/{accNo}")
-//	public String deleteAccount(@PathVariable("accNo") long accNo) {
-//		accountService.deleteAccount(accNo);
-//		return "Account Deleted Successfully";
-//	}
 	
 }

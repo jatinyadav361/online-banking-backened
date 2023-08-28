@@ -36,8 +36,14 @@ public class CustomerDTO {
 	private boolean active;
 	private boolean locked;
 	private Date dob;
+	private boolean admin;
 	
-	
+	public boolean isAdmin() {
+		return admin;
+	}
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
 	public Date getDob() {
 		return dob;
 	}

@@ -4,7 +4,15 @@ public class CustomerLogin {
 
 	private String username;
 	private String password;
+	private boolean admin;
 	
+	
+	public boolean isAdmin() {
+		return admin;
+	}
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
 	public String getUsername() {
 		return username;
 	}

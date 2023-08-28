@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,6 +59,19 @@ public class CustomerController {
 		return customerService.fetchAllUsers();
 	}
 	
-//	@PutMapping("")
+	@PutMapping("user/toggleLock/{username}")
+	public ResponseEntity<String> toggleLockedStatus(@PathVariable("username") String username) {
+		return customerService.toggleLockedStatus(username);
+	}
+	
+	@PutMapping("user/toggleActive/{username}")
+	public ResponseEntity<String> toggleActiveStatus(@PathVariable("username") String username) {
+		return customerService.toggleActivatedStatus(username);
+	}
+	
+	@PutMapping("user/toggleAdmin/{username}")
+	public ResponseEntity<String> toggleAdminStatus(@PathVariable("username") String username) {
+		return customerService.toggleAdminStatus(username);
+	}
 
 }

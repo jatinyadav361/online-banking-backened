@@ -36,29 +36,15 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account fetchAccount(long accId) {
+	public ResponseEntity<Double> fetchBalance(long accId) {
 		Optional<Account> acc = accountRepository.findById(accId);
-		return acc.get();
-	}
-
-	@Override
-	public Account updateAccount(Account account, long accountNo) {
-		// only allows updating the ifsc code
-		Optional<Account> prevAccount = accountRepository.findById(accountNo);
-		if(prevAccount.isPresent()) {
-			if(!account.getIfsc().isEmpty()) {
-				prevAccount.get().setIfsc(account.getIfsc());
-			}
-			return accountRepository.save(prevAccount.get());
+		if(acc.isPresent()) {
+			return ResponseEntity.status(200).body(acc.get().getBalance());
 		}
 		else {
-			return accountRepository.save(account);
+			return ResponseEntity.status(404).body(0.0);
 		}
 	}
 
-	@Override
-	public void deleteAccount(long accountNo) {
-		accountRepository.deleteById(accountNo);	
-	}
 	
 }

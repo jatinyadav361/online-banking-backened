@@ -19,13 +19,15 @@ public interface CustomerService {
 	List<CustomerDTO> fetchAllUsers();
 	
 	CustomerDTO fetchUser(String username);
+		
+	ResponseEntity<String> toggleActivatedStatus(String username);
 	
-	boolean getUserActiveStatus(String username);
+	ResponseEntity<String> toggleLockedStatus(String username);
 	
-	ResponseEntity<String> activateUser(String username);
+	ResponseEntity<String> toggleAdminStatus(String username);
 	
-	ResponseEntity<String> lockUser(String username);
-	
-	boolean getUserLockStatus(String username);
+//	boolean getUserActiveStatus(String username);
+
+//	boolean getUserLockStatus(String username);
 
 }

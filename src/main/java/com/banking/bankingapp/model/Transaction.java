@@ -12,6 +12,8 @@ import jakarta.persistence.SequenceGenerator;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 @Entity
 @Table(name="TransactionInfo")
@@ -21,6 +23,8 @@ public class Transaction {
 	@SequenceGenerator(name="transaction_generator", sequenceName="transaction_seq",initialValue=1000000000, allocationSize=1)
 	private long transactionId;
 	private ZonedDateTime timestamp;
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date date;
 	private double tAmount;
 	private String tType; // debit or credit

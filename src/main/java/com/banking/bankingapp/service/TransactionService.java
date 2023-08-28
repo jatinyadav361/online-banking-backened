@@ -14,7 +14,11 @@ public interface TransactionService {
 	
 	ResponseEntity<String> selfCashWithdrawl(Transaction transaction, Long sender);
 	
+	ResponseEntity<String> selfCashDeposit(Transaction transaction, Long sender);
+	
 	List<TransactionFetch> fetchAccountSummary(long accountNo);
+	
+	List<TransactionFetch> fetchAllTransactions(long accountNo);
 	
 	List<TransactionFetch> fetchAccountStatement(long accountNo, Date startDate, Date endDate);
 }

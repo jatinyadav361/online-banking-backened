@@ -10,7 +10,7 @@ public class TransactionFetch {
 	private String tType;
 	private long senderAccountId;
 	private long recieverAccountId;
-	private String tMode; // transaction mode RTGS, NEFT, IMPS, Cash Withdrawl, Self Transfer
+	private String tMode; // transaction mode RTGS, NEFT, IMPS, Cash Withdrawl, Cash Deposit, Self Transfer
 	private double instBalance;
 	private double instBalanceReciever;
 	public double getInstBalanceReciever() {
